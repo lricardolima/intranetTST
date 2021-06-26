@@ -1,0 +1,46 @@
+/* Tables Style*/
+.table {
+    font-size: 1.6rem;
+    overflow-y: hidden;
+    margin-top: 20px;
+    margin-bottom: 50px;
+
+}
+.table th {
+    text-align: center;
+    border-radius: 12px;
+    color: var( --color-text-white);
+}
+.table td {
+    text-align: center;
+    color: var( --color-text-white);
+    font-size: 1.2rem;
+
+}
+
+/*Botoes Tabelas*/
+
+#btn-default-branch {
+    border-radius: 12px;
+    color: var(--color-text-white);
+    background-color: var(--color-text-primary-hover);
+    transition-duration: 0.4s;
+}
+
+#btn-default-branch:hover {
+    background-color: var(--color-background-primary);
+    color: var(--color-secondary-text);
+}
+
+
+
+/*Inputs Styles*/
+
+form label {
+    color: var(--color-primary-text);
+}
+.custom-control-input:checked ~ .custom-control-label::before {
+    color: var(--color-text-white);
+    border-color: var(--color-text-primary-hover);
+    background-color: var(--color-text-primary-hover);
+}

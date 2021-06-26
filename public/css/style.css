@@ -1,0 +1,50 @@
+:root{
+    --color-primary-text: #81211f;
+    --color-secondary-text: #cecece;
+    --color-text-gray: #485460;
+    --color-text-black: #000000;
+    --color-text-white: #ffffff;
+    --color-text-primary-hover:  #ac3b40;
+    --color-background-gray: #d1d8e0;
+    --color-background-primary: #81211f;
+    --color-background-secondary: #ffffff;
+    --color-background-hover: #ac3b40;
+
+    font-size: 90%;
+}
+@font-face {
+    font-family: 'GlacialIndifference';
+    src: url(../fonts/glacial/glacial-indifference-regular.otf);
+}
+body{
+    background: var(--color-background-primary);
+    font-family: GlacialIndifference;
+}
+main{
+    background: var(--color-background-secondary);
+    border-bottom-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+p {
+    color: var(--color-primary-text);
+    font-size: 15px;
+}
+main #container{
+    position: relative;
+    margin-top: -18px;
+}
+
+fieldset {
+    border-radius: 10px;
+    display: block;
+    margin: 0;
+    padding: 15px;
+    width: 100%;
+    cursor: default;
+    background-color: var(--color-background-primary);
+    color: var(--color-text-white);
+    line-height: 30px;
+    font-family: GlacialIndifference;
+    border-bottom-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
