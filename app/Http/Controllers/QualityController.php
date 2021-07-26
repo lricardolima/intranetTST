@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Assistance;
 use App\Quality;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Http\Requests\QualityRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -47,42 +48,32 @@ class QualityController extends Controller
      */
     public function store(QualityRequest $request)
     {
+        try
+        {
+            $request['slug'] = Str::slug($request->title);
 
+            $data = $request->all();
 
-            if ($request ->hasFile('photo'))
+            if($request->photo && $request->photo->isValid())
             {
-                if($request->file('photo')->isValid())
-                {
-                    $filenameWithExt = $request->file('photo')->getClientOriginalName();
-                    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                    $extension = $request->file('photo')->getClientOriginalExtension();
-                    $fileNameToStore = $filename.'_'.time().'.'.$extension;
-                    $path = $request->file('photo')->storeAs('public/quality', $fileNameToStore);
-                }
-            }
-            else
-            {
-                $fileNameToStore = 'noimage.png';
+                $filenameWithExt = $request->file('photo')->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $request->file('photo')->getClientOriginalExtension();
+                $fileNameToStore = $filename.'_'.time().'.'.$extension;
+                $path = $request->file('photo')->storeAs('public/quality', $fileNameToStore);
+                $data['photo'] = $fileNameToStore;
             }
 
-            Quality::create([
+            Quality::create($data);
 
-                'title'=> $request->title,
-                'description' => $request->description,
-                'photo' => $fileNameToStore,
-                'type' => $request->type,
-                'link' => $request->link,
-                'responsible' => $request->responsible,
-                'assistance_id' => $request->assistance_id,
+            return redirect()->route('quality.index')->with(['color' => 'green', 'message' => 'Cadastro realizado com sucesso!']);
 
-            ]);
+        }
 
-
-            $request->session()->flash('success', "Cadastro realizado com sucesso!");
-            return redirect()->route('quality.index');
-
-
-
+        catch (\Exception $e)
+        {
+            return redirect()->route('quality.create')->with(['color' => 'orange', 'message' => 'OOps!!, Favor preencher todos os campos abaixo.']);
+        }
     }
     /**
      * Display the specified resource.
@@ -125,30 +116,27 @@ class QualityController extends Controller
     {
 
         try {
+
             $quality = Quality::find($id);
 
-            if ($request ->hasFile('photo'))
+            $data = $request->all();
+
+            if($request->photo && $request->photo->isValid())
             {
-                if($request->file('photo')->isValid())
+                if( Storage::exists('public/quality/'. $quality->photo))
                 {
+                    Storage::delete('public/quality/'. $quality->photo);
+                }
                     $filenameWithExt = $request->file('photo')->getClientOriginalName();
                     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
                     $extension = $request->file('photo')->getClientOriginalExtension();
                     $fileNameToStore = $filename.'_'.time().'.'.$extension;
                     $path = $request->file('photo')->storeAs('public/quality', $fileNameToStore);
-                }
-            }
-            Quality::whereId($id)->update([
+                    $data['photo'] = $fileNameToStore;
 
-                'title'=> $request->title,
-                'description' => $request->description,
-                'photo' => $fileNameToStore,
-                'type' => $request->type,
-                'link' => $request->link,
-                'responsible' => $request->responsible,
-                'assistance_id' => $request->assistance_id,
+           }
 
-            ]);
+            $quality->update($data);
 
             $quality->assistance->update($request->all());
 
@@ -181,9 +169,7 @@ class QualityController extends Controller
         {
             $quality = Quality::find($id);
 
-            if ($quality->photo != 'noimage.jpg') {
-                Storage::delete('public/quality/'. $quality->photo);
-            }
+            Storage::delete('public/quality/'. $quality->photo);
 
             $quality->delete();
         }
