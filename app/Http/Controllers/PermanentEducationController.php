@@ -60,10 +60,7 @@ class PermanentEducationController extends Controller
                     $path = $request->file('photo')->storeAs('public/permanentEducation', $fileNameToStore);
                 }
             }
-            else
-            {
-                $fileNameToStore = 'noimage.png';
-            }
+           
 
             PermanentEducation::create([
 

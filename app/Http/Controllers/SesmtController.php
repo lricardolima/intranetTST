@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Administrative;
 use App\Sesmt;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Http\Requests\SesmtRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -48,46 +49,31 @@ class SesmtController extends Controller
     public function store(sesmtRequest $request)
     {
 
-         try {
+         try
+          {
 
-            if ($request ->hasFile('photo'))
+            $request['slug'] = Str::slug($request->title);
+
+            $data = $request->all();
+
+            if($request->photo && $request->photo->isValid())
             {
-                if($request->file('photo')->isValid())
-                {
-                    $filenameWithExt = $request->file('photo')->getClientOriginalName();
-                    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                    $extension = $request->file('photo')->getClientOriginalExtension();
-                    $fileNameToStore = $filename.'_'.time().'.'.$extension;
-                    $path = $request->file('photo')->storeAs('public/sesmt', $fileNameToStore);
-                }
-            }
-            else
-            {
-                $fileNameToStore = 'noimage.png';
+                $filenameWithExt = $request->file('photo')->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $request->file('photo')->getClientOriginalExtension();
+                $fileNameToStore = $filename.'_'.time().'.'.$extension;
+                $path = $request->file('photo')->storeAs('public/sesmt', $fileNameToStore);
+                $data['photo'] = $fileNameToStore;
             }
 
-            Sesmt::create([
+            Sesmt::create($data);
 
-                'title'=> $request->title,
-                'description' => $request->description,
-                'photo' => $fileNameToStore,
-                'type' => $request->type,
-                'link' => $request->link,
-                'responsible' => $request->responsible,
-                'administrative_id' => $request->administrative_id,
-
-            ]);
-
-
-            $request->session()->flash('success', "Cadastro realizado com sucesso!");
-            return redirect()->route('sesmt.index');
-
+            return redirect()->route('sesmt.index')->with(['color' => 'green', 'message' => 'Cadastro realizado com sucesso!']);
 
          }
          catch (\Exception $e)
          {
-            $request->session()->flash('error', "Cadastro não foi realizado!");
-            return redirect()->route('sesmt.create');
+            return redirect()->route('sesmt.create')->with(['color' => 'orange', 'message' => 'OOps!!, Favor preencher todos os campos abaixo.']);
          }
 
     }
@@ -131,42 +117,43 @@ class SesmtController extends Controller
     public function update(sesmtRequest $request, $id)
     {
 
-        try {
+        try
+        {
+
             $sesmt = Sesmt::find($id);
 
-            if ($request ->hasFile('photo'))
+            $data = $request->all();
+
+            if($request->photo && $request->photo->isValid())
             {
-                if($request->file('photo')->isValid())
+                if( Storage::exists('public/sesmt/'. $sesmt->photo))
                 {
+                    Storage::delete('public/sesmt/'. $sesmt->photo);
+                }
                     $filenameWithExt = $request->file('photo')->getClientOriginalName();
                     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
                     $extension = $request->file('photo')->getClientOriginalExtension();
                     $fileNameToStore = $filename.'_'.time().'.'.$extension;
                     $path = $request->file('photo')->storeAs('public/sesmt', $fileNameToStore);
-                }
-            }
-            Sesmt::whereId($id)->update([
+                    $data['photo'] = $fileNameToStore;
 
-                'title'=> $request->title,
-                'description' => $request->description,
-                'photo' => $fileNameToStore,
-                'type' => $request->type,
-                'link' => $request->link,
-                'responsible' => $request->responsible,
-                'administrative_id' => $request->administrative_id,
+           }
 
-            ]);
+            $sesmt->update($data);
 
             $sesmt->administrative->update($request->all());
 
             $request->session()->flash('success', "Cadastro alterado com sucesso!");
 
             return redirect()->route('sesmt.index');
+
         }
+
         catch (\Exception $e)
+
         {
             $request->session()->flash('error', "Cadastro não foi realizado!");
-            return redirect()->route('sesmt.edit, $id');
+            return redirect()->route('sesmt.edit', $id);
         }
 
     }
