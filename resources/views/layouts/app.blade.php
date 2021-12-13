@@ -48,7 +48,7 @@
                         </li>
                         <li class="nav-item active ml-3"><a class="nav-link" href="{{ route('sector') }}"><span>Setores</span></a></li>
                         <li class="nav-item active ml-3"><a class="nav-link" href="{{ route('branch.index') }}"><span>Ramais</span></a></li>
-                        <li class="nav-item active ml-3"><a class="nav-link" href="{{ url('http://mail.gastroclinicahospital.com.br/') }}"><span>E-mail</span></a></li>
+                        <li class="nav-item active ml-3"><a class="nav-link" href="{{ url('http://outlook.office.com') }}"><span>E-mail</span></a></li>
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
