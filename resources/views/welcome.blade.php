@@ -29,6 +29,62 @@
 </div>
 <div class="d-flex justify-content-center">
     <div class="col-sm-11">
+        <div class="contaniner-sm" id="mv">
+            <div class="row">
+                <div class="mv-title col-sm-12 my-5">
+                    <h1>Acesso ao MV</h1>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        <div class="container-sm" id="mv">
+            <div class="row">
+                <div class="carde col-sm-3">
+                    <div id="mv">
+                        <a class="mt-2" id="" href="{{url('http://1940prd.cloudmv.com.br/')}}">
+                            <img class="img-fluid" src="{{asset("img/mv/mv.png")}}" alt="">
+                            <div class="block">
+                                <h4 class="title">Mv Produção</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="carde col-sm-3">
+                    <div id="mv">
+                        <a class="mt-2" id="" href="{{url('http://1940prd.cloudmv.com.br/mvpep')}}">
+                            <img class="img-fluid" src="{{asset("img/mv/mv.png")}}" alt="">
+                            <div class="block">
+                                <h4 class="title-mv">Mv PEP</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="carde col-sm-3">
+                    <div id="mv">
+                        <a class="mt-2" id="" href="{{url('http://1940tst1.cloudmv.com.br:82/soul-mv/')}}">
+                            <img class="img-fluid" src="{{asset("img/mv/mv.png")}}" alt="">
+                            <div class="block">
+                                <h4 class="title">Mv Teste</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="carde col-sm-3">
+                    <div id="mv">
+                        <a class="mt-2" id="" href="{{url('Http://1940tst1.cloudmv.com.br:82/mvpep/')}}">
+                            <img class="img-fluid" src="{{asset("img/mv/mv.png")}}" alt="">
+                            <div class="block">
+                                <h4 class="title">Mv PEP Teste</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex justify-content-center">
+    <div class="col-sm-11">
         <div class="contaniner-sm" id="notice">
             <div class="row">
                 <div class="notice-title col-sm-12 my-5">

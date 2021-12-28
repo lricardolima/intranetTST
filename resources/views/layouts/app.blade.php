@@ -37,7 +37,9 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li class="nav-item active ml-3">
+                            <a href="{{url('http://chamados.meridionalsaude.com.br')}}" class="btn mt-3" id="button-default">Chamados GLPI</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

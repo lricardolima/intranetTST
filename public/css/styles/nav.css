@@ -45,3 +45,7 @@ min-width: 1199px){
         margin-left: 10px;
     }
 }
+
+ul li .btn{
+    margin-left: 15rem;
+}
